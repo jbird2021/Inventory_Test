@@ -1,0 +1,4 @@
+plugin: redhat.openshift.openshift
+connections:
+  - host: https://api.ocpdev.stantec.com:6443
+    validate_certs: no
