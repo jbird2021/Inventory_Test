@@ -1,33 +1,8 @@
 ---
-- hosts: all
-  connection: local
-  gather_facts: false
-  tasks:
-    - name:
-      uri:
-        url: "https://ec2-18-237-223-91.us-west-2.compute.amazonaws.com/api/v2/job_templates/{{ job_id }}/launch/"
-        method: POST
-        force_basic_auth: yes
-        user: "{{ tower_user }}"
-        password: "{{ tower_pass }}"
-        validate_certs: no
-        status_code: 201
-      register: myout  
-    - name: debug
+- name: Hello World Sample
+  hosts: localhost
+  gather_facts: True
+  tasks:   
+    - name: Say Hello
       debug:
-        var: myout
-    - name: wait for the report
-      uri:
-        url: "https://ec2-18-237-223-91.us-west-2.compute.amazonaws.com{{ myout.json.url }}"
-        validate_certs: false
-        status_code: 200
-        return_content: true
-        body_format: "json"
-        user: "{{ tower_user }}"
-        password: "{{ tower_pass }}"
-        force_basic_auth: yes
-      register: myout
-      when: myout.json is defined
-      until: myout.json.status == 'successful' or myout.json.status == 'failed'
-      retries: "{{ job_retries }}"
-      delay: "{{ job_delay }}"
+        msg: "Hello World!"
