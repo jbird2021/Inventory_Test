@@ -1,6 +1,3 @@
-[all]
-[testme]
-variabletest
 newtest_1
 newtest_2
 localhost
@@ -13,7 +10,6 @@ example6
 example7 
 example8 
 example9
-[testme:vars]
 _awx_description='this is group var from github'
 [unvaulted]
 example10
