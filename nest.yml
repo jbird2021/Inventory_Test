@@ -1,0 +1,12 @@
+all:
+  children:
+    groupA:
+      vars:
+        filter_var: filter_val
+      children:
+        groupB:
+          hosts:
+            host1: {}
+    ungrouped:
+      hosts:
+        host2: {}
