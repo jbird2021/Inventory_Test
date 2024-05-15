@@ -13,9 +13,9 @@ compose:
     account: u_account_id
 query:
   - u_account_id: LIKE 12345
-    operational_status: = 1
-  - u_account_id: LIKE 54321
-    operational_status: = 1
+#    operational_status: = 1
+#  - u_account_id: LIKE 54321
+#    operational_status: = 1
 groups:
   development_buckets: >-
     account == "12345" or account == "54321"
