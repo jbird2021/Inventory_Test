@@ -1,0 +1,25 @@
+---
+plugin: servicenow.itsm.now
+columns:
+- object_id
+- u_account_id
+- operational_status
+- u_public_access_block_exception
+- u_website_hosting_exception
+- encryption_type
+table: cmdb_ci_cloud_object_storage
+compose:
+    bucket_name: name
+    account: u_account_id
+query:
+  - u_account_id: LIKE xxxxxx
+    operational_status: = 1
+  - u_account_id: LIKE xxxxxx
+    operational_status: = 1
+  - u_account_id: LIKE xxxxxx
+    operational_status: = 1
+  - u_account_id: LIKE xxxxxx
+    operational_status: = 1
+groups:
+  development_buckets: >-
+    account == "xxxxxx" or account == "xxxxxx" or account == "xxxxxx" or account == "xxxxxx"
