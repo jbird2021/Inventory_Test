@@ -12,14 +12,10 @@ compose:
     bucket_name: name
     account: u_account_id
 query:
-  - u_account_id: LIKE xxxxxx
+  - u_account_id: LIKE 12345
     operational_status: = 1
-  - u_account_id: LIKE xxxxxx
-    operational_status: = 1
-  - u_account_id: LIKE xxxxxx
-    operational_status: = 1
-  - u_account_id: LIKE xxxxxx
+  - u_account_id: LIKE 54321
     operational_status: = 1
 groups:
   development_buckets: >-
-    account == "xxxxxx" or account == "xxxxxx" or account == "xxxxxx" or account == "xxxxxx"
+    account == "12345" or account == "54321"
