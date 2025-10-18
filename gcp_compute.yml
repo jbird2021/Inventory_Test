@@ -3,10 +3,8 @@ plugin: google.cloud.gcp_compute
 
 folders:
   - "test" 
-
 hostnames:
   - name
-
 groups:
   cloud_gcp: true
   domain_atco_com: labels['hostdomain'] | default(false) == 'test'
@@ -21,11 +19,9 @@ groups:
   no_patch: >-
     labels.automationpatch is defined
     and labels.automationpatch is false
-		
-scopes:
+  scopes:
   - 'https://www.googleapis.com/auth/cloud-platform'
   - 'https://www.googleapis.com/auth/compute.readonly'
-
 compose:
   ansible_host: >-
     name | lower ~ ('.test.com' if labels['hostdomain'] == 'test'
