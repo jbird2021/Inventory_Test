@@ -3,8 +3,8 @@ plugin: google.cloud.gcp_compute
 
 folders:
   - "test" 
-hostnames:
-  - name
+#hostnames:
+#  - name
 groups:
   cloud_gcp: true
 #  domain_atco_com: labels['hostdomain'] | default(false) == 'test'
