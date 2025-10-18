@@ -1,6 +1,8 @@
 ---
+
 folders:
-  - "test" 
+  - "folders/123456789012"  # Your folder ID here
+  - "folders/234567890123"  
 
 plugin: google.cloud.gcp_compute
 zones: # populate inventory with instances in these zones
