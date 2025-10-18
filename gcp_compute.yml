@@ -1,32 +1,35 @@
----
+# Simple GCP Compute Inventory with Folders
+# Minimal configuration example
+# Name this file ending in .gcp.yml (e.g., inventory.gcp.yml)
 
+plugin: gcp_compute
+
+# Authentication
+auth_kind: serviceaccount
+service_account_file: gcp_compute/service-account.json
+
+# Query all projects in these folders
 folders:
-  - "folders/123456789012"  # Your folder ID here
-  - "folders/234567890123"  
+  - "folders/123456789012"
 
-plugin: google.cloud.gcp_compute
-zones: # populate inventory with instances in these zones
-  - us-east1-a
+# Or specify specific projects (can use both folders and projects together)
 projects:
-  - gcp-prod-gke-100
-  - gcp-cicd-101
+  - my-gcp-project-id
+
+# Only get running instances
 filters:
   - status = RUNNING
-  - scheduling.automaticRestart = true AND status = RUNNING
-service_account_file: /tmp/service_account.json
-auth_kind: serviceaccount
-scopes:
- - 'https://www.googleapis.com/auth/cloud-platform'
- - 'https://www.googleapis.com/auth/compute.readonly'
-keyed_groups:
-  # Create groups from GCE labels
-  - prefix: gcp
-    key: labels
-name_suffix: .example.com
+
+# Use instance name as the hostname
 hostnames:
-  # List host by name instead of the default public ip
   - name
+
+# Set ansible_host to public IP, fallback to private IP
 compose:
-  # Set an inventory parameter to use the Public IP address to connect to the host
-  # For Private ip use "networkInterfaces[0].networkIP"
-  ansible_host: networkInterfaces[0].accessConfigs[0].natIP
+  ansible_host: networkInterfaces[0].accessConfigs[0].natIP | default(networkInterfaces[0].networkIP)
+  
+# Group instances by environment label
+keyed_groups:
+  - key: labels.environment | default('unlabeled')
+    prefix: env
+
