@@ -1,21 +1,30 @@
 ---
-plugin: google.cloud.gcp_compute
-
 folders:
   - "test" 
-hostnames:
-  - "all"
-groups:
-  cloud_gcp: true
-#  domain_atco_com: labels['hostdomain'] | default(false) == 'test'
-#  domain_atcoext_com: labels['hostdomain'] | default(false) == 'test'
-#  domain_nodomain: >-
-#    ['', 'nodomain'] in labels['hostdomain']
-#  os_windows: metadata['windows-keys'] is defined
-#  os_linux: metadata['ssh-keys'] is defined
 
+plugin: google.cloud.gcp_compute
+zones: # populate inventory with instances in these zones
+  - us-east1-a
+projects:
+  - gcp-prod-gke-100
+  - gcp-cicd-101
+filters:
+  - status = RUNNING
+  - scheduling.automaticRestart = true AND status = RUNNING
+service_account_file: /tmp/service_account.json
+auth_kind: serviceaccount
 scopes:
-  - 'https://www.googleapis.com/auth/cloud-platform'
-  - 'https://www.googleapis.com/auth/compute.readonly'
+ - 'https://www.googleapis.com/auth/cloud-platform'
+ - 'https://www.googleapis.com/auth/compute.readonly'
+keyed_groups:
+  # Create groups from GCE labels
+  - prefix: gcp
+    key: labels
+name_suffix: .example.com
+hostnames:
+  # List host by name instead of the default public ip
+  - name
 compose:
-  ansible_host: all
+  # Set an inventory parameter to use the Public IP address to connect to the host
+  # For Private ip use "networkInterfaces[0].networkIP"
+  ansible_host: networkInterfaces[0].accessConfigs[0].natIP
