@@ -1,0 +1,32 @@
+---
+plugin: google.cloud.gcp_compute
+
+folders:
+  - "test" 
+
+hostnames:
+  - name
+
+groups:
+  cloud_gcp: true
+  domain_atco_com: labels['hostdomain'] | default(false) == 'test'
+  domain_atcoext_com: labels['hostdomain'] | default(false) == 'test'
+  domain_nodomain: >-
+    ['', 'nodomain'] in labels['hostdomain']
+  os_windows: metadata['windows-keys'] is defined
+  os_linux: metadata['ssh-keys'] is defined
+  env_prod: >-
+    labels.environment is defined
+    and labels.environment | lower in ['prod']
+  no_patch: >-
+    labels.automationpatch is defined
+    and labels.automationpatch is false
+		
+scopes:
+  - 'https://www.googleapis.com/auth/cloud-platform'
+  - 'https://www.googleapis.com/auth/compute.readonly'
+
+compose:
+  ansible_host: >-
+    name | lower ~ ('.test.com' if labels['hostdomain'] == 'test'
+    else '.test.com')
